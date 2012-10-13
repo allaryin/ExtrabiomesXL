@@ -51,6 +51,26 @@ public enum BlockManager {
 			proxy.registerWorldGenerator(new QuicksandGenerator(
 					thisBlock.blockID));
 		}
+	},
+	GRIT {
+		@Override
+		protected void create() {
+			block = Optional.of(new BlockGrit(blockID));
+		}
+
+		@Override
+		protected void prepare() {
+			final CommonProxy proxy = Extrabiomes.proxy;
+			final Block thisBlock = block.get();
+
+			thisBlock.setBlockName("extrabiomes.grit");
+			proxy.setBlockHarvestLevel(thisBlock, "shovel", 0);
+			proxy.registerBlock(thisBlock);
+
+			proxy.addName(thisBlock, "Grit");
+
+			proxy.registerOre("dustSand", thisBlock);
+		}
 	};
 
 	private static boolean		settingsLoaded	= false;
