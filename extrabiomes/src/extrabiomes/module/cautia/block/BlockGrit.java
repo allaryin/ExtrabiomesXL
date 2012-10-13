@@ -6,15 +6,16 @@
 
 package extrabiomes.module.cautia.block;
 
+import java.util.List;
 import java.util.Random;
 
 import net.minecraft.src.AxisAlignedBB;
 import net.minecraft.src.Block;
 import net.minecraft.src.CreativeTabs;
 import net.minecraft.src.EntityPlayer;
-import net.minecraft.src.EnumSkyBlock;
 import net.minecraft.src.IBlockAccess;
 import net.minecraft.src.Item;
+import net.minecraft.src.ItemStack;
 import net.minecraft.src.Material;
 import net.minecraft.src.StatList;
 import net.minecraft.src.World;
@@ -22,12 +23,42 @@ import cpw.mods.fml.common.Side;
 import cpw.mods.fml.common.asm.SideOnly;
 
 public class BlockGrit extends Block {
+
+	public enum BlockType {
+		GRIT(0, "Grit"), DUST(1, "Dust");
+
+		private final int		value;
+		private final String	itemName;
+
+		BlockType(int value, String itemName) {
+			this.value = value;
+			this.itemName = itemName;
+		}
+
+		public String itemName() {
+			return itemName;
+		}
+
+		public int metadata() {
+			return value;
+		}
+	}
+
 	public BlockGrit(int id) {
 		super(id, 65, Material.sand);
 		setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.015625F, 1.0F);
 		setTickRandomly(true);
 		setTextureFile("/extrabiomes/extrabiomes.png");
 		setCreativeTab(CreativeTabs.tabDecorations);
+		setLightOpacity(0);
+	}
+
+	private boolean canGritStay(World world, int x, int y, int z) {
+		if (!canPlaceBlockAt(world, x, y, z)) {
+			world.setBlockWithNotify(x, y, z, 0);
+			return false;
+		} else
+			return true;
 	}
 
 	@Override
@@ -40,12 +71,15 @@ public class BlockGrit extends Block {
 				y - 1, z).blocksMovement() : false;
 	}
 
-	private boolean canSnowStay(World world, int x, int y, int z) {
-		if (!canPlaceBlockAt(world, x, y, z)) {
-			world.setBlockWithNotify(x, y, z, 0);
-			return false;
-		} else
-			return true;
+	@Override
+	protected int damageDropped(int metadata) {
+		return metadata;
+	}
+
+	@Override
+	public int getBlockTextureFromSideAndMetadata(int side, int metadata)
+	{
+		return blockIndexInTexture + metadata;
 	}
 
 	@Override
@@ -53,6 +87,13 @@ public class BlockGrit extends Block {
 			int x, int y, int z)
 	{
 		return null;
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void getSubBlocks(int id, CreativeTabs tab, List itemList) {
+		for (final BlockType blockType : BlockType.values())
+			itemList.add(new ItemStack(this, 1, blockType.metadata()));
 	}
 
 	@Override
@@ -69,6 +110,12 @@ public class BlockGrit extends Block {
 	}
 
 	@Override
+	public boolean isBlockReplaceable(World world, int x, int y, int z)
+	{
+		return true;
+	}
+
+	@Override
 	public boolean isOpaqueCube() {
 		return false;
 	}
@@ -77,7 +124,7 @@ public class BlockGrit extends Block {
 	public void onNeighborBlockChange(World world, int x, int y, int z,
 			int neighborID)
 	{
-		canSnowStay(world, x, y, z);
+		canGritStay(world, x, y, z);
 	}
 
 	@Override
@@ -103,7 +150,8 @@ public class BlockGrit extends Block {
 	public void updateTick(World world, int x, int y, int z,
 			Random random)
 	{
-		if (world.getSavedLightValue(EnumSkyBlock.Block, x, y, z) > 11)
-			world.setBlockWithNotify(x, y, z, 0);
+		// if (world.getSavedLightValue(EnumSkyBlock.Block, x, y, z) >
+		// 11)
+		// world.setBlockWithNotify(x, y, z, 0);
 	}
 }

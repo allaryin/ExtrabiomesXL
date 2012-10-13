@@ -26,6 +26,7 @@ import extrabiomes.ExtrabiomesLog;
 import extrabiomes.api.BiomeManager;
 import extrabiomes.configuration.ExtrabiomesConfig;
 import extrabiomes.module.cautia.worldgen.QuicksandGenerator;
+import extrabiomes.module.summa.block.BlockRedRock;
 import extrabiomes.proxy.CommonProxy;
 
 public enum BlockManager {
@@ -65,11 +66,16 @@ public enum BlockManager {
 
 			thisBlock.setBlockName("extrabiomes.grit");
 			proxy.setBlockHarvestLevel(thisBlock, "shovel", 0);
-			proxy.registerBlock(thisBlock);
+			proxy.registerBlock(thisBlock,
+					extrabiomes.utility.MultiItemBlock.class);
+			for (final BlockGrit.BlockType blockType : BlockGrit.BlockType
+					.values())
+				proxy.addName(
+						new ItemStack(thisBlock, 1, blockType
+								.metadata()), blockType.itemName());
 
-			proxy.addName(thisBlock, "Grit");
-
-			proxy.registerOre("dustSand", thisBlock);
+			proxy.registerOre("dustSand", new ItemStack(thisBlock, 1, BlockGrit.BlockType.GRIT.metadata()));
+			proxy.registerOre("dustDirt", new ItemStack(thisBlock, 1, BlockGrit.BlockType.DUST.metadata()));
 		}
 	};
 
