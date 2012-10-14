@@ -363,7 +363,7 @@ public enum BlockManager {
 					BlockCustomLog.BlockType.ACACIA.metadata());
 			WorldGenFirTree.setTrunkBlock(thisBlock,
 					BlockCustomLog.BlockType.FIR.metadata());
-			
+
 			Extrabiomes.proxy.registerEventHandler(thisBlock);
 		}
 	},
@@ -393,7 +393,7 @@ public enum BlockManager {
 				proxy.registerOre("log", itemstack);
 				proxy.registerOre("log" + type.toString(), itemstack);
 			}
-			
+
 			Extrabiomes.proxy.registerEventHandler(thisBlock);
 		}
 	},
@@ -423,7 +423,7 @@ public enum BlockManager {
 				proxy.registerOre("log", itemstack);
 				proxy.registerOre("log" + type.toString(), itemstack);
 			}
-			
+
 			Extrabiomes.proxy.registerEventHandler(thisBlock);
 		}
 	},
@@ -453,7 +453,7 @@ public enum BlockManager {
 				proxy.registerOre("log", itemstack);
 				proxy.registerOre("log" + type.toString(), itemstack);
 			}
-			
+
 			Extrabiomes.proxy.registerEventHandler(thisBlock);
 		}
 	},
@@ -484,8 +484,28 @@ public enum BlockManager {
 				proxy.registerOre("log", itemstack);
 				proxy.registerOre("log" + type.toString(), itemstack);
 			}
-			
+
 			Extrabiomes.proxy.registerEventHandler(thisBlock);
+		}
+	},
+	PARCHEDEARTH(true) {
+		@Override
+		protected void create() {
+			block = Optional.of(new BlockParchedEarth(blockID));
+		}
+
+		@Override
+		protected void prepare() {
+			final CommonProxy proxy = Extrabiomes.proxy;
+			final Block thisBlock = block.get();
+
+			thisBlock.setBlockName("extrabiomes.parchedearth");
+			proxy.setBlockHarvestLevel(thisBlock, "shovel", 0);
+			proxy.registerBlock(thisBlock);
+			proxy.addName(thisBlock, "Parched Earth");
+
+			proxy.registerOre("dirtParched", thisBlock);
+			addParchedEarthToWasteland(thisBlock.blockID);
 		}
 	};
 
@@ -498,8 +518,15 @@ public enum BlockManager {
 
 		final BiomeGenBase wasteland = BiomeManager.wasteland.get();
 		wasteland.topBlock = (byte) crackedsandID;
-		wasteland.fillerBlock = (byte) crackedsandID;
 		ExtrabiomesLog.info("Added cracked sand to wasteland biome.");
+	}
+
+	private static void addParchedEarthToWasteland(int crackedsandID) {
+		if (!BiomeManager.wasteland.isPresent()) return;
+
+		final BiomeGenBase wasteland = BiomeManager.wasteland.get();
+		wasteland.fillerBlock = (byte) crackedsandID;
+		ExtrabiomesLog.info("Added parched to wasteland biome.");
 	}
 
 	private static void addRedRockToMountainRidge(int redrockID) {
