@@ -9,13 +9,13 @@ package extrabiomes.module.fabrica;
 import net.minecraft.src.Block;
 import net.minecraft.src.IRecipe;
 import net.minecraft.src.Item;
-import net.minecraftforge.common.Configuration;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 
 import com.google.common.base.Optional;
 
 import extrabiomes.Extrabiomes;
 import extrabiomes.IModule;
+import extrabiomes.api.Stuff;
 import extrabiomes.configuration.ExtrabiomesConfig;
 import extrabiomes.module.fabrica.block.BlockManager;
 import extrabiomes.module.fabrica.recipe.CookBook;
@@ -25,9 +25,7 @@ import extrabiomes.module.fabrica.scarecrow.ItemScarecrow;
 
 public class Fabrica implements IModule {
 
-	private static Optional<Item>	scarecrow	= Optional.absent();
-
-	private static int				scarecrowID	= 0;
+	private static int	scarecrowID	= 0;
 
 	@Override
 	public void init() throws InstantiationException,
@@ -39,10 +37,12 @@ public class Fabrica implements IModule {
 
 		if (scarecrowID > 0) {
 			final String NAME = "Scarecrow";
-			scarecrow = Optional.of(new ItemScarecrow(scarecrowID)
-					.setItemName(NAME).setIconIndex(96));
+			Stuff.scarecrow = Optional
+					.of(new ItemScarecrow(scarecrowID)
+							.setItemName(NAME).setIconIndex(96));
 
-			Extrabiomes.proxy.addName(scarecrow.get(), "Scarecrow");
+			Extrabiomes.proxy.addName(Stuff.scarecrow.get(),
+					"Scarecrow");
 
 			final int scarecrowEntityID = Extrabiomes.proxy
 					.findGlobalUniqueEntityId();
@@ -52,9 +52,10 @@ public class Fabrica implements IModule {
 					NAME, Extrabiomes.instance, scarecrowEntityID, 300,
 					2, true);
 
-			final IRecipe recipe = new ShapedOreRecipe(scarecrow.get(),
-					new String[] { " p ", "sms", " s " }, 'p',
-					Block.pumpkin, 'm', Block.melon, 's', Item.stick);
+			final IRecipe recipe = new ShapedOreRecipe(
+					Stuff.scarecrow.get(), new String[] { " p ", "sms",
+							" s " }, 'p', Block.pumpkin, 'm',
+					Block.melon, 's', Item.stick);
 			Extrabiomes.proxy.addRecipe(recipe);
 		}
 	}
@@ -64,8 +65,7 @@ public class Fabrica implements IModule {
 			throws InstantiationException, IllegalAccessException
 	{
 		BlockManager.preInit(config);
-		scarecrowID = config.getOrCreateIntProperty("scarecrow.id",
-				Configuration.CATEGORY_ITEM,
+		scarecrowID = config.getItem("scarecrow.id",
 				Extrabiomes.getNextDefaultItemID()).getInt(0);
 
 		if (scarecrowID > 0)
