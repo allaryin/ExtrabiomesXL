@@ -15,7 +15,9 @@ import com.google.common.base.Optional;
 public enum Stuff {
 	INSTANCE;
 
+	public static Optional<? extends Item>	dirtClod			= Optional.absent();
 	public static Optional<? extends Item>	logTurner			= Optional.absent();
+	public static Optional<? extends Item>	sandClump			= Optional.absent();
 	public static Optional<? extends Item>	scarecrow			= Optional.absent();
 	
 	public static Optional<? extends Block>	cattail				= Optional.absent();
@@ -23,10 +25,7 @@ public enum Stuff {
 	public static Optional<? extends Block>	earthParched		= Optional.absent();
 	public static Optional<? extends Block>	flower				= Optional.absent();
 	public static Optional<? extends Block>	grass				= Optional.absent();
-<<<<<<< HEAD
 	public static Optional<? extends Block>	grit				= Optional.absent();
-=======
->>>>>>> next
 	public static Optional<? extends Block>	leafPile			= Optional.absent();
 	public static Optional<? extends Block>	leavesAutumn		= Optional.absent();
 	public static Optional<? extends Block>	leavesGreen			= Optional.absent();

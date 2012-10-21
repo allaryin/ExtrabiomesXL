@@ -10,8 +10,9 @@ import net.minecraft.src.CreativeTabs;
 import net.minecraft.src.Item;
 
 public class ItemClump extends Item {
-	public ItemClump(int par1) {
-		super(par1);
+	public ItemClump(int id) {
+		super(id);
+		setTextureFile("/extrabiomes/extrabiomes.png");
 		setCreativeTab(CreativeTabs.tabMaterials);
 	}
 }
