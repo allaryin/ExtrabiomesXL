@@ -41,37 +41,37 @@ public class RenderQuarterLog implements ISimpleBlockRenderingHandler {
 		GL11.glTranslatef(-0.5F, -0.5F, -0.5F);
 		var4.startDrawingQuads();
 		var4.setNormal(0.0F, -1.0F, 0.0F);
-		renderer.renderBottomFace(block, 0.0D, 0.0D, 0.0D,
+		renderer.renderFaceYNeg(block, 0.0D, 0.0D, 0.0D,
 				block.getIcon(0, metadata));
 		var4.draw();
 
 		var4.startDrawingQuads();
 		var4.setNormal(0.0F, 1.0F, 0.0F);
-		renderer.renderTopFace(block, 0.0D, 0.0D, 0.0D,
+		renderer.renderFaceYPos(block, 0.0D, 0.0D, 0.0D,
 				block.getIcon(1, metadata));
 		var4.draw();
 
 		var4.startDrawingQuads();
 		var4.setNormal(0.0F, 0.0F, -1.0F);
-		renderer.renderEastFace(block, 0.0D, 0.0D, 0.0D,
+		renderer.renderFaceXPos(block, 0.0D, 0.0D, 0.0D,
 				block.getIcon(2, metadata));
 		var4.draw();
 
 		var4.startDrawingQuads();
 		var4.setNormal(0.0F, 0.0F, 1.0F);
-		renderer.renderWestFace(block, 0.0D, 0.0D, 0.0D,
+		renderer.renderFaceXNeg(block, 0.0D, 0.0D, 0.0D,
 				block.getIcon(3, metadata));
 		var4.draw();
 
 		var4.startDrawingQuads();
 		var4.setNormal(-1.0F, 0.0F, 0.0F);
-		renderer.renderNorthFace(block, 0.0D, 0.0D, 0.0D,
+		renderer.renderFaceZNeg(block, 0.0D, 0.0D, 0.0D,
 				block.getIcon(4, metadata));
 		var4.draw();
 
 		var4.startDrawingQuads();
 		var4.setNormal(1.0F, 0.0F, 0.0F);
-		renderer.renderSouthFace(block, 0.0D, 0.0D, 0.0D,
+		renderer.renderFaceZPos(block, 0.0D, 0.0D, 0.0D,
 				block.getIcon(5, metadata));
 		var4.draw();
 
